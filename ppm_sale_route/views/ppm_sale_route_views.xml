@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="ppm_sale_route_list" model="ir.ui.view">
+            <field name="name">ppm_sale_route_list</field>
+            <field name="model">ppm.sale.route</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" optional="hide"/>
+                    <field name="user_id"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="ppm_sale_route_form" model="ir.ui.view">
+            <field name="name">ppm_sale_route_form</field>
+            <field name="model">ppm.sale.route</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="user_id" string="Sale man"/>
+                            <h2><field name="user_id" readonly="1" force_save="1" options="{'no_create': 1, 'no_open': 1, 'no_edit': 1}"/></h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="team_id" options="{'no_create': 1, 'no_open': 1}" readonly="1" force_save="1"/>
+                                <field name="manager_id" options="{'no_create': 1, 'no_open': 1}" readonly="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field readonly="1" force_save="1" name="company_id" options="{'no_create': 1, 'no_open': 1}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Route list">
+                                <field name="line_ids" widget="one2many" mode="tree">
+                                    <tree editable="bottom" create="false" no_open="1">
+<!--                                        <field name="existing_partner_ids" invisible="1"/>-->
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="id" optional="hide"/>
+                                        <field name="user_id" optional="hide"/>
+                                        <field name="partner_id" readonly="1" force_save="1" options="{'no_open': 1, 'no_edit': 1, 'no_create': 1}"/>
+                                        <field name="mon_day"/>
+                                        <field name="tue_day"/>
+                                        <field name="wed_day"/>
+                                        <field name="thu_day"/>
+                                        <field name="fri_day"/>
+                                        <field name="sat_day"/>
+                                        <field name="week1"/>
+                                        <field name="week2"/>
+                                        <field name="week3"/>
+                                        <field name="week4"/>
+                                        <field name="customer_code" optional="hide"/>
+                                        <field name="customer_address" optional="hide"/>
+                                        <field name="company_id" optional="hide"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="action_ppm_sale_route" model="ir.actions.act_window">
+            <field name="name">Sale Route</field>
+            <field name="res_model">ppm.sale.route</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

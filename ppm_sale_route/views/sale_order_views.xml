@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="ppm_sale_order_form_extend" model="ir.ui.view">
+            <field name="name">ppm_sale_order_form_extend</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="date_order" position="after">
+                    <field name="distributor_id"/>
+                </field>
+                <field name="team_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="user_id" position="after">
+                    <field name="ppm_sale_team_id"/>
+                </field>
+                <field name="tax_totals" position="before">
+                    <field name="global_discount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+<!--                    <field name="amount_after_discount"/>-->
+                </field>
+                <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
+                    <attributes name="groups">ppm_sale_route.ppt_pharmacy_group_manager</attributes>
+                </xpath>
+                <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
+                    <attributes name="groups">ppm_sale_route.ppt_pharmacy_group_manager</attributes>
+                </xpath>
+                <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
+                    <field name="foc"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_sale_order_to_approve" model="ir.actions.act_window">
+            <field name="name">Order to approve</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="context">{}</field>
+            <field name="domain">[('state', 'in', ('draft', 'sent'))]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new quotation, the first step of a new sale!
+                </p><p>
+                    Once the quotation is confirmed, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+                </p>
+            </field>
+    </record>
+    </data>
+</odoo>

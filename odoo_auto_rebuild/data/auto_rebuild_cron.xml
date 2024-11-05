@@ -1,0 +1,16 @@
+<!-- odoo_auto_rebuild/data/auto_rebuild_cron.xml -->
+
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_auto_rebuild" model="ir.cron">
+            <field name="name">Auto Rebuild Database and Filestore</field>
+            <field name="model_id" ref="model_auto_rebuild"/>
+            <field name="state">code</field>
+            <field name="code">model.rebuild_database_and_filestore()</field>
+            <field name="active" eval="True"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall" eval="-1"/>
+        </record>
+    </data>
+</odoo>

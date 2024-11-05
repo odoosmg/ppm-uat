@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="ppm_sale_paperformat_4" model="report.paperformat">
+            <field name="name">A4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+        <record id="action_ppm_report_saleorderr" model="ir.actions.report">
+            <field name="name">Purchase Order</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ppm_sale_route.ppm_sale_order_document</field>
+            <field name="report_file">ppm_sale_route.ppm_sale_order_document</field>
+            <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="ppm_sale_route.ppm_sale_paperformat_4"/>
+        </record>
+        <template id="ppm_sale_order_document" name="PPM Sale Order">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <div class="row">
+                                <div class="col-6 text-start">
+                                    <h5 t-esc="o.company_id.name"/>
+                                    <h6>Address: <span t-field="o.company_id.partner_id.customer_address" /></h6>
+                                    <h6>Telephone: <span t-field="o.company_id.partner_id.phone" /></h6>
+                                </div>
+                                <div class="col-3 offset-3 text-end">
+                                    <p class="m-0" t-field="o.date_order" t-options='{"widget": "date"}'/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center py-3">
+                                    <h5>PURCHASE ORDER</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <table class="table table-sm table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width: 80px;" class="text-start">Customer</th>
+                                                <th>:</th>
+                                                <td><span t-field="o.partner_id"/> (<span t-esc="o.partner_id.customer_code" />) </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-start">Telephone</th>
+                                                <th>:</th>
+                                                <td><span t-field="o.partner_id.phone"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-start">Address</th>
+                                                <th>:</th>
+                                                <td><span t-field="o.partner_id.customer_address"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-start">Staff Tel</th>
+                                                <th>:</th>
+                                                <td><span t-field="o.user_id.partner_id.mobile"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-4 offset-2">
+                                    <table class="table table-sm table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width: 120px;" class="text-start">Order Number</th>
+                                                <th>:</th>
+                                                <td><span t-field="o.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-start">Order Date</th>
+                                                <th>:</th>
+                                                <td><span t-field="o.date_order" t-options="{'widget': 'date', 'format': 'dd-MM-YYYY'}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-start">STAFF NAME</th>
+                                                <th>:</th>
+                                                <td><span t-field="o.user_id"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 py-3">
+                                    <table class="table table-bordered border-dark">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center align-middle">Product code</th>
+                                                <th class="text-center align-middle">Product Name</th>
+                                                <th class="text-center align-middle">Unit</th>
+                                                <th class="text-center align-middle">Qty</th>
+                                                <th class="text-center align-middle">FOC</th>
+                                                <th class="text-center align-middle" style="width: 100px;">Price</th>
+                                                <th class="text-center align-middle" style="width: 120px;">DISC</th>
+                                                <th class="text-center align-middle" style="width: 120px;">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="o.order_line" t-as="line">
+                                                <td class="align-middle"><span t-field="line.product_id.default_code"/></td>
+                                                <td class="align-middle">[<span t-esc="line.product_id.barcode" />] <span t-esc="line.product_id.name"/></td>
+                                                <td class="align-middle"><span t-field="line.product_uom"/></td>
+                                                <td class="align-middle text-end"><span t-field="line.product_uom_qty"/></td>
+                                                <td class="align-middle text-end"><span t-field="line.foc"/></td>
+                                                <td class="align-middle text-end"><span t-field="line.price_unit"/></td>
+                                                <td class="align-middle text-end"><span t-field="line.discount"/></td>
+                                                <td class="align-middle text-end"><span t-field="line.price_subtotal"/></td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="border-0">
+                                            <tr class="border-0">
+                                                <td class="border-0" rowspan="4" colspan="5">
+                                                    <span t-field="o.note" />
+                                                </td>
+                                                <td colspan="2" class="text-end border-0">Total Amount</td>
+                                                <td class="text-end"><span t-field="o.amount_untaxed"/></td>
+                                            </tr>
+                                            <tr class="border-0">
+                                                <td colspan="2" class="text-end border-0">Order discount(%)</td>
+                                                <td class="text-end"><span t-field="o.global_discount" t-options="{'widget': 'integer'}"/></td>
+                                            </tr>
+                                            <tr class="border-0">
+                                                <td colspan="2" class="text-end border-0">Total discount</td>
+                                                <td class="text-end"><span t-field="o.discount_amount"/></td>
+                                            </tr>
+                                            <tr class="border-0">
+                                                <td colspan="2" class="text-end border-0">Total payment</td>
+                                                <td class="text-end"><span t-esc="o.tax_totals['amount_total']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                            </tr>
+                                            <tr class="border-0">
+                                                <td colspan="7" class="text-end align-middle border-0">
+                                                    (<span t-esc="o.currency_id.amount_to_text(o.tax_totals['amount_total'])" />)
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-borderless table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">CUSTOMER</td>
+                                                <td class="text-center">DELIVERY</td>
+                                                <td class="text-center">STOCK STAFF</td>
+                                                <td class="text-center">CREATOR</td>
+                                                <td class="text-center">SALES</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

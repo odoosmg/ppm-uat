@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="res_partner_type_list" model="ir.ui.view">
+            <field name="name">res_partner_type_list</field>
+            <field name="model">res.partner.type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="color_code" widget="color"/>
+                    <field name="company_id" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_res_partner_type" model="ir.actions.act_window">
+            <field name="name">Partner Type</field>
+            <field name="res_model">res.partner.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+</odoo>

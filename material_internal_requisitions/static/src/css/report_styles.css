@@ -1,0 +1,19 @@
+body {
+    font-zie:100%;
+    font-family: Times New Roman;
+}
+
+.signature_font {
+    font-family: Khmer OS Muol Light;
+    font-size:11px;
+
+}
+
+.header_font {
+   font-family: Khmer OS Muol Light;
+   font-weight: bold;
+}
+
+.table_font th, .table_font td{
+    font-size: 13px;
+}

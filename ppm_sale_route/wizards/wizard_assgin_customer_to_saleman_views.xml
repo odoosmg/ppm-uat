@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="wizard_assign_customer_to_saleman_form" model="ir.ui.view">
+            <field name="name">wizard_assign_customer_to_saleman_form</field>
+            <field name="model">wizard.assign.customer.saleman</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="company_id" invisible="1"/>
+                        <group>
+                            <field name="sale_man_ids" options="{'no_create': 1, 'no_edit': 1, 'no_open':1}" widget="many2many_tags"/>
+                        </group>
+                        <footer>
+                            <button name="action_validate" string="Assign Saleman" type="object"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="wizard_assgin_customer_to_saleman_action" model="ir.actions.act_window">
+            <field name="name">Assign Customer to Saleman</field>
+            <field name="res_model">wizard.assign.customer.saleman</field>
+            <field name="view_id" ref="wizard_assign_customer_to_saleman_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_res_partner"/>
+            <field name="binding_view_types">list</field>
+        </record>
+    </data>
+</odoo>

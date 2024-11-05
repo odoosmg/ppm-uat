@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="sale_activity_group_user_rule" model="ir.rule">
+            <field name="name">Sale Activity: group user</field>
+            <field name="model_id" ref="model_ppm_sale_route_line_activity"/>
+            <field name="groups" eval="[(4, ref('ppm_sale_route.ppt_pharmacy_group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+        </record>
+        <record id="sale_line_activity_group_manager_rule" model="ir.rule">
+            <field name="name">Route line activity: group manager</field>
+            <field name="model_id" ref="model_ppm_sale_route_line_activity"/>
+            <field name="groups" eval="[(4, ref('ppm_sale_route.ppt_pharmacy_group_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">['|', ('route_id.team_id.manager_id', '=', user.id), ('user_id','=',user.id)]</field>
+        </record>
+        <record id="sale_line_activity_group_manager_rule" model="ir.rule">
+            <field name="name">Route line activity: group administrator</field>
+            <field name="model_id" ref="model_ppm_sale_route_line_activity"/>
+            <field name="groups" eval="[(4, ref('ppm_sale_route.ppt_pharmacy_group_administrator'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+    </data>
+</odoo>

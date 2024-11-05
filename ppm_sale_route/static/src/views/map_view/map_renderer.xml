@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <t t-name="ppm_sale_route.MapRenderer.PinListItems" t-inherit="web.ListRenderer.RecordRow">
+        <xpath expr="//a[t-if='latitude and longitude']" position="attributes">
+            <attribute name="class">{'text-red' if record.</attribute>
+        </xpath>
+    </t>
+    <t t-name="web_map.MapRenderer.PinListItems" owl="1">
+        <t t-foreach="records" t-as="record" t-key="record.id">
+            <t t-set="latitude" t-value="record.partner and record.partner.partner_latitude"/>
+            <t t-set="longitude" t-value="record.partner and record.partner.partner_longitude"/>
+            <li t-att-class="{'o-map-renderer--pin-located': latitude and longitude}" t-att-title="(!latitude or !longitude) and 'Could not locate'">
+                <a t-if="latitude and longitude" href="" t-on-click.prevent="() => this.centerAndOpenPin(record)">
+                    <t t-esc="record.display_name"/>
+                </a>
+                <t t-else="">
+                    <span class="text-muted" t-esc="record.display_name"/>
+                    <span class="float-end" t-if="record.partner and record.partner.fetchingCoordinate">
+                        <i class="fa fa-spin fa-circle-o-notch"/>
+                    </span>
+                </t>
+            </li>
+        </t>
+    </t>
+</odoo>

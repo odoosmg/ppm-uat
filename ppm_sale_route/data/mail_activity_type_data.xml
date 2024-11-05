@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <data noupdate="1">
+            <record id="mail_activity_data_customer_to_approve" model="mail.activity.type">
+                <field name="name">Customer to "Approve"</field>
+                <field name="icon">fa-check-circle</field>
+                <field name="sequence">4</field>
+                <field name="active">False</field>
+                <field name="res_model">res.partner</field>
+            </record>
+        </data>
+    </data>
+</odoo>

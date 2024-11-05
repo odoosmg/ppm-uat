@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+    <record id="view_auto_rebuild_form" model="ir.ui.view">
+        <field name="name">Auto Rebuild Form</field>
+        <field name="model">auto.rebuild</field>
+        <field name="arch" type="xml">
+            <form string="Auto Rebuild">
+                <header>
+                    <button name="button_rebuild" type="object" string="Rebuild Now" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="last_rebuild_date" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_auto_rebuild" model="ir.actions.act_window">
+        <field name="name">Auto Rebuild</field>
+        <field name="res_model">auto.rebuild</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Auto Rebuild Settings Form View -->
+    <record id="view_auto_rebuild_settings_form" model="ir.ui.view">
+        <field name="name">auto.rebuild.settings.form</field>
+        <field name="model">auto.rebuild.settings</field>
+        <field name="arch" type="xml">
+            <form string="Auto Rebuild Settings">
+                <sheet>
+                    <group>
+                        <group string="Odoo Live">
+                            <field string="DB Name" name="prod_db_name" readonly="1"/>
+                            <field string="DB User" name="prod_db_user" readonly="1"/>
+                            <field string="DB Password" name="prod_db_password" readonly="1"/>
+                            <field string="DB Host" name="prod_host" readonly="1"/>
+                            <field string="Filestore" name="prod_filestore" readonly="1"/>
+                        </group>
+                        <group string="Odoo UAT">
+                            <field string="DB Name" name="uat_db_name"/>
+                            <field string="DB User" name="uat_db_user"/>
+                            <field string="DB Password" name="uat_db_password"/>
+                            <field string="UAT Hostname" name="uat_host" readonly="1"/>
+                            <field string="Filestore" name="uat_filestore"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_auto_rebuild_settings" model="ir.actions.act_window">
+        <field name="name">Configure Settings</field>
+        <field name="res_model">auto.rebuild.settings</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_auto_rebuild_root" name="UAT DB Clone" groups="base.group_system">
+        <menuitem id="menu_auto_rebuild" name="Rebuild Database and Filestore" action="action_auto_rebuild"/>
+        <menuitem id="menu_auto_rebuild_settings" name="Configure Settings" action="action_auto_rebuild_settings"/>
+    </menuitem>
+
+    </data>
+</odoo>

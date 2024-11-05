@@ -1,0 +1,50 @@
+
+Sale Activity color:
+    - Todo: Normal
+    - Check In: Green
+    - Check Out: Blue
+    - Check out with order: Dark blue
+
+Update Route model:
+	- Check In location(lat, long, cusotmer_id, datetime, route_id)
+	- Check Out (lat, long, customer_id, remark=text, photo, is_order=Boolean, datetime, route_id)
+Fetch customer from sale route
+	- Params: {token}
+	- Response:
+		- Route model: {
+			id, 
+			sale_man_id: {id, name, phone, leader: {id, name}}},  customer_id: {id, name, address, lat, long}, status={'todo', 'checked-in', 'check-out', 'check-out-order'}
+
+
+Backend:
+    - API:
+        - product list
+        - list customer type
+        - Add New customer [name, customer type, phone, address, lat, long]
+        - Add new sale order
+        - Change password
+        - User Information
+        - Activity report with param[start_date, to_date]
+    - Form:
+        - Add new field: GPS Range(m) with default: 20 as float to table res.partner
+        - Add new field: Customer Status as selection: [pending, approve, reject] to res.partner model
+        - Add new filter to [Pending, Approve] to res.partner model
+        - Add new action button [Approve, Reject] to res.partner form
+        - Add new customer type as Many2one to res.partner.type model
+        - Auto to Approve when user create customer from odoo form
+        - Add new customer code to res.partner(require when approve customer, not duplicate)
+        - Only Sale Manager can confirm sale order.
+        - Add new custom report(print out) follow telegram (Purchase Order)
+        - Change Visit Cycle(week) to let user can check as day (mon, tue, ..)
+        - Add new menu for Sale activity app (group sale Manager):
+            - Customer:
+                - Customer List (only approved customer)
+                - To Approve (only pending customer)
+
+            - Product (only consumable product):
+            - Hide tab(Sales, Purchase, Accounting) from product view
+            - Hide Product type, Invoicing Policy from product view
+            - Add Sale order discount (Global discount)
+            -
+
+

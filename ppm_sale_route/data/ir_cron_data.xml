@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="ppm_sale_route_line_cron_job" model="ir.cron">
+            <field name="name">PPM Sale route line activity cronjob</field>
+            <field name="model_id" ref="ppm_sale_route.model_ppm_sale_route_line"/>
+            <field name="state">code</field>
+            <field name="active">True</field>
+            <field name="code">model._cron_job_create_sale_activity()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="active" eval="True" />
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="True"/>
+            <field name="nextcall" eval="(DateTime.now().replace(hour=0, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        </record>
+    </data>
+</odoo>

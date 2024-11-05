@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <menuitem name="Sale Activity" web_icon="ppm_sale_route,static/description/icon.png" id="ppm_sale_route_menu_root" action="ppm_sale_route.ppm_sale_route_line_activity_action"/>
+
+        <menuitem sequence="1" name="Sale Order" id="ppm_sale_route_sale_order_menu" parent="ppm_sale_route.ppm_sale_route_menu_root">
+            <menuitem name="Order List" id="ppm_sale_order_list_menu"
+                      action="sale.action_orders"/>
+            <menuitem name="To Approve" id="ppm_sale_order_to_approve_menu"
+                      action="ppm_sale_route.action_sale_order_to_approve"/>
+        </menuitem>
+        <menuitem sequence="2" name="Products" id="ppm_product_menu" parent="ppm_sale_route.ppm_sale_route_menu_root">
+            <menuitem name="Product Category" id="ppm_product_category_menu"
+                      action="product.product_category_action_form"/>
+            <menuitem name="Product List" id="ppm_product_list_menu"
+                      action="ppm_sale_route.ppm_product_template_action_all"/>
+            <menuitem name="Product UOM Category" id="ppm_product_uom_category_menu"
+                      action="uom.product_uom_categ_form_action"/>
+        </menuitem>
+        <menuitem groups="ppm_sale_route.ppt_pharmacy_group_manager" name="Customer" sequence="3"
+                  id="ppm_sale_customer_menu" parent="ppm_sale_route.ppm_sale_route_menu_root">
+            <menuitem name="Customer List" id="ppm_sale_customer_list_menu"
+                      action="ppm_sale_route.ppm_sale_activity_action_customer_list"/>
+            <menuitem name="To Approve" id="ppm_sale_customer_to_approve_menu"
+                      action="ppm_sale_route.ppm_sale_activity_action_to_approve_customer"/>
+            <menuitem name="Customer type" id="ppm_res_partner_type_menu"
+                      action="ppm_sale_route.action_res_partner_type"/>
+        </menuitem>
+        <menuitem sequence="4" name="Reporting" id="ppm_sale_reporting" parent="ppm_sale_route.ppm_sale_route_menu_root">
+            <menuitem name="Sales Analysis" id="ppm_sale_anlysis_menu"
+                      action="sale.action_order_report_all"/>
+        </menuitem>
+        <menuitem sequence="5" name="Sale Management" id="ppm_sale_management_menu" parent="ppm_sale_route.ppm_sale_route_menu_root">
+            <menuitem name="Sales Team" id="ppm_sale_team_menu"
+                      action="ppm_sale_route.action_ppm_sale_team"/>
+            <menuitem name="Sales Rep" id="ppm_sale_member_menu"
+                      action="ppm_sale_route.ppm_sale_member_action"/>
+            <menuitem name="Distributor" id="ppm_distributor_menu"
+                      action="ppm_sale_route.ppm_distributor_action"/>
+            <menuitem name="Sale Route line" id="ppm_test_sale_route"
+                      groups="base.group_system"
+                      action="ppm_sale_route.action_ppm_sale_route_line"/>
+        </menuitem>
+    </data>
+</odoo>

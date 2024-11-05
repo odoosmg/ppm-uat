@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="ppm_res_partner_list" model="ir.ui.view">
+            <field name="name">ppm_res_partner_list</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="display_name" position="after">
+                    <field name="customer_code" />
+                    <field name="customer_address"/>
+                    <field name="ppm_sale_man" widget="many2many_tags" />
+                </field>
+            </field>
+        </record>
+        <record id="ppm_res_partner_search_extend" model="ir.ui.view">
+            <field name="name">ppm_res_partner_search_extend</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='group_by']" position="inside">
+                    <filter name="groupby_customer_type" string="Customer Type" domain="[]" context="{'group_by' : 'customer_type'}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="ppm_res_partner_form_extend" model="ir.ui.view">
+            <field name="name">ppm_res_partner_form_extend</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group[1]" position="inside">
+                    <field name="is_link_to_user" invisible="1" />
+                    <group string="Maps" attrs="{'invisible': [('is_link_to_user', '=', True)]}">
+                        <field name="partner_latitude" />
+                        <field name="partner_longitude" />
+                        <field name="link_to_map" />
+                    </group>
+                </xpath>
+                <xpath expr="//form/sheet" position="before">
+                    <header>
+                        <field name="show_approve_button" invisible="1" />
+                        <button attrs="{'invisible': [('show_approve_button', '=', False)]}" name="action_approve" class="btn-primary" string="Approve" type="object" />
+                        <button attrs="{'invisible': [('show_approve_button', '=', False)]}" name="action_reject" string="Reject" type="object" />
+                        <button attrs="{'invisible': [('partner_latitude', '=', False)]}" name="action_open_google_map" string="Open Google Map" type="object" />
+                    </header>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']//field[@name='team_id'][2]" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='geo_location']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <field name="vat" position="before">
+                    <field name="show_gps_range" invisible="1" />
+                    <field name="customer_address"/>
+                    <field name="customer_code" attrs="{'invisible': [('show_gps_range', '=', False)]}"/>
+                    <field name="gps_range" attrs="{'invisible': [('show_gps_range', '=', False)]}"/>
+                    <field name="customer_status" readonly="1" force_save="1"  attrs="{'invisible': [('show_gps_range', '=', False)]}"/>
+                    <field name="customer_type" />
+                </field>
+                <xpath expr="//page[@name='sales_purchases']//field[@name='user_id']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']//group[@name='sale']" position="inside">
+                    <field name="ppm_sale_man" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="ppm_sale_activity_action_customer_list" model="ir.actions.act_window">
+            <field name="name">Customer List</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{'search_default_groupby_customer_type': 1, 'default_customer_rank': 1}</field>
+            <field name="domain">[('customer_status', '=', 'approve'), ('customer_rank', '>', 0)]</field>
+        </record>
+        <record id="ppm_sale_activity_action_to_approve_customer" model="ir.actions.act_window">
+            <field name="name">To Approve</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_groupby_customer_type': 1, 'default_customer_rank': 1}</field>
+            <field name="domain">[('customer_status', '=', 'pending'), ('customer_rank', '>', 0)]</field>
+        </record>
+    </data>
+</odoo>

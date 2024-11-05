@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="ppm_sale_route.ActivityStatus" owl="1">
+        <span t-if="props.value" class="badge rounded-pill" t-att-class="classFromDecoration" t-esc="formattedValue" />
+    </t>
+</templates>

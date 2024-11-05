@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="ppm_sale_route_line_activity_search" model="ir.ui.view">
+            <field name="name">ppm_sale_route_line_activity_search</field>
+            <field name="model">ppm.sale.route.line.activity</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <separator/>
+                    <filter name="filter_today" string="Today" domain="[('todo_date', '=', time.strftime('%Y-%m-%d'))]"/>
+                    <filter string="Todo" name="filter_todo" domain="[('activity_type', '=', 'todo')]"/>
+                    <filter string="Check in" name="filter_check_in" domain="[('activity_type', '=', 'check-in')]"/>
+                    <filter string="Check out" name="filter_check_out" domain="[('activity_type', '=', 'check-out')]"/>
+                    <filter string="Check out with order" name="filter_check_out_with_order" domain="[('activity_type', '=', 'check-out-order')]"/>
+                    <separator/>
+                    <filter string="Salesperson" name="group_by_salesperson" domain="[]" context="{'group_by': 'user_id'}"/>
+                </search>
+            </field>
+        </record>
+        <record id="ppm_sale_route_line_activity_list" model="ir.ui.view">
+            <field name="name">ppm_sale_route_line_activity_list</field>
+            <field name="model">ppm.sale.route.line.activity</field>
+            <field name="arch" type="xml">
+                <tree expand="1" create="false">
+                    <field name="id" optional="hide"/>
+                    <field name="user_id"/>
+                    <field name="state_color"/>
+                    <field name="route_id" optional="hide"/>
+                    <field name="latitude" optional="hide"/>
+                    <field name="longitude" optional="hide"/>
+                    <field name="partner_id"/>
+                    <field name="activity_type"/>
+                    <field name="check_in_date"/>
+                    <field name="check_out_date"/>
+                    <field name="photo" widget="image" optional="hide"/>
+                    <field name="remark" optional="hide"/>
+                    <field name="has_order" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+        <record id="ppm_sale_route_line_activity_map" model="ir.ui.view">
+            <field name="name">ppm_sale_route_line_activity_map</field>
+            <field name="model">ppm.sale.route.line.activity</field>
+            <field name="arch" type="xml">
+                <google_map_view res_partner="partner_id" routing="0" show_sale_team="1">
+                    <field name="user_id" string="Sale Man"/>
+                    <field name="activity_type" string="Status"/>
+                    <field name="check_in_date" string="Check In"/>
+                    <field name="check_out_date" string="Check Out"/>
+                    <field name="state_color"/>
+                    <field name="remark" string="Remark"/>
+                </google_map_view>
+            </field>
+        </record>
+        <record id="ppm_sale_route_activity_graph" model="ir.ui.view">
+            <field name="name">ppm_sale_route_activity_graph</field>
+            <field name="model">ppm.sale.route.line.activity</field>
+            <field name="arch" type="xml">
+                <graph string="Sale Activity" sample="1">
+                    <field name="user_id"/>
+                    <field name="partner_id" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        <record id="ppm_sale_route_line_activity_action" model="ir.actions.act_window">
+            <field name="name">Route line activity</field>
+            <field name="res_model">ppm.sale.route.line.activity</field>
+            <field name="view_mode">google_map_view,tree,graph</field>
+            <field name="context">{'search_default_filter_today': 1, 'search_default_group_by_salesperson': 1}</field>
+            <field name="search_view_id" ref="ppm_sale_route_line_activity_search"/>
+        </record>
+    </data>
+</odoo>

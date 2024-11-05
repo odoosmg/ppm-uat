@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="report_internal_requisition"
+            model="internal.requisition"
+            string="Print Requisition"
+            report_type="qweb-html"
+            name="material_internal_requisitions.internal_requisition"
+            file="material_internal_requisitions.internal_requisition"
+            paperformat="custom_invoice.report_a5_nologo"
+        />
+
+        <template id="material_internal_requisitions.report_assets_common" name="material_internal_requisitions_report_assets_common" inherit_id="web.report_assets_common">
+            <xpath expr="." position="inside">
+                <link href="material_internal_requisitions/static/src/css/report_styles.css" rel="stylesheet"/>
+            </xpath>
+        </template>
+
+        <template id="internal_requisition">
+           <t t-call="web.html_container">
+               <t t-foreach="docs" t-as="doc">
+                    <t t-call="custom_invoice.custom_invoice_external_layout_noheader" t-lang="en_US">
+                         <div class="page">
+                             <div style="height:3px"></div>
+                             <div class="text-center">
+                                 <h6 class="header_font">
+                                    ប័ណ្ណស្នើសុំសម្ភារ:ប្រើប្រាស់
+                                 </h6>
+                                 <h6 style="font-weight:bolder;font-family:arial">
+                                    ITEM USAGE REQUISITION
+                                 </h6>
+                             </div>
+                    <div class="row signature_font">
+                     <div class="col-7 text-left text-nowrap">
+                        <div class="form-check form-check-inline lbl-width-80">
+                           <label class="form-check-label" for="campus" style="font-weight:bolder">Employee:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <span class="form-check-label" t-field="doc.request_emp"/>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="form-check form-check-inline lbl-width-80">
+                           <label class="form-check-label" for="campus" style="font-weight:bolder">Requisition No:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <span class="form-check-label" t-field="doc.name"/>
+                        </div>
+                         <div class="clear"></div>
+                        <div class="form-check form-check-inline lbl-width-80">
+                           <label class="form-check-label" for="campus" style="font-weight:bolder">Requisition Date:</label>
+                        </div>
+                         <div class="form-check form-check-inline lbl-width-80">
+                          <span class="form-check-label" t-field="doc.request_date"/>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="form-check form-check-inline lbl-width-80">
+                           <label class="form-check-label" for="campus" style="font-weight:bolder">Description:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <span class="form-check-label" t-field="doc.reason"/>
+                        </div>
+                         <div class="clear"></div>
+                        <div class="form-check form-check-inline lbl-width-80">
+                           <label class="form-check-label" for="campus" style="font-weight:bolder">Campus:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <span class="form-check-label" t-field="doc.analytic_tag_ids"/>
+                        </div>
+
+                     </div>
+
+                        <div class="col-5 text-left text-nowrap">
+                        <div class="form-check form-check-inline lbl-width-70">
+                           <label class="form-check-label" for="campus" style="font-weight:bolder">Department: </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <span class="form-check-label" t-field="doc.department_id"/>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="form-check form-check-inline lbl-width-70">
+                           <label class="form-check-label" for="campus" style="font-weight:bolder">Status:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <span class="form-check-label" t-field="doc.state"/>
+                        </div>
+                         <div class="clear"></div>
+                        <div class="form-check form-check-inline lbl-width-70">
+                           <label class="form-check-label" for="campus" style="font-weight:bolder">Date Required:</label>
+                        </div>
+                         <div class="form-check form-check-inline">
+                          <span class="form-check-label" t-field="doc.date_end"/>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="form-check form-check-inline lbl-width-70">
+                           <label class="form-check-label" for="campus" style="font-weight:bolder">Date Printed:</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <span t-esc="datetime.datetime.now().strftime('%d/%m/%Y')"></span>
+                        </div>
+
+                     </div>
+                    </div>
+                           <br></br>
+
+                            <table class="table table-sm table-bordered col-md-12 table_font">
+                                <thead>
+                               <tr>
+                                   <td width="10%" class="text-nowrap"><strong>Item Number</strong></td>
+                                   <td width="40%"><strong>Item Description</strong></td>
+                                   <td width="5%"><strong>Qty</strong></td>
+                                   <td width="10%"><strong>UOM</strong></td>
+                                   <td width="10%" class="text-nowrap"><strong>Date Required</strong></td>
+                                   <td width="25%"><strong>Comments</strong></td>
+                               </tr>
+                                </thead>
+                                <tbody>
+                               <t t-foreach ="doc.requisition_line_ids" t-as="line">
+                                   <tr>
+                                    <td class="text-nowrap"><span t-field="line.product_id.default_code"/></td>
+                                    <td><span t-field="line.description"/></td>
+                                    <td class="text-left"><span t-esc="int(line.qty)"/>
+                                  </td>
+                                    <td class="text-left"><span t-esc="line.uom.name"/></td>
+                                       <td><span t-field="doc.date_end"/></td>
+                                       <td>&#160;</td>
+                               </tr>
+                               </t>
+                                </tbody>
+                         </table>
+                        <div style="height:10px"/>
+                        <div class="row signature_font">
+                           <div class="col-2 text-center text-nowrap">បានឃើញនិងឯកភាព<br/>Seen and Agreed by</div>
+                            <div class="col-2 text-center">ពិនិត្យដោយ<br/>Checked by Inventory</div>
+                            <div class="col-2 text-center text-nowrap">បានប្រគល់ដោយ<br/>Delivered by Stock Keeper</div>
+                            <div class="col-2 text-center text-nowrap">បានអនុញ្ញាតដោយ<br/>Endorsed by</div>
+                            <div class="col-2 text-center text-nowrap">បានទទួលដោយ<br/>Received by</div>
+                            <div class="col-2 text-center">ស្នើសុំដោយ<br/>Requested by</div>
+                        </div>
+<!--                           <div class="row signature_font">-->
+<!--                            <div class="col-2 text-center">Seen and Agreed by</div>-->
+<!--                            <div class="col-2 text-center">Checked by Inventory</div>-->
+<!--                            <div class="col-2 text-center text-nowrap">Delivered by Stock Keeper</div>-->
+<!--                            <div class="col-2 text-center">Endorsed by</div>-->
+<!--                            <div class="col-2 text-center">Received by</div>-->
+<!--                            <div class="col-2 text-center">Requested by</div>-->
+<!--                        </div>-->
+                        <div class="row">
+                            <p>&#160;</p>
+                            <p>&#160;</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 text-center"><hr/></div>
+                            <div class="col-2 text-center"><hr/></div>
+                            <div class="col-2 text-center"><hr/></div>
+                            <div class="col-2 text-center"><hr/></div>
+                            <div class="col-2 text-center"><hr/></div>
+                            <div class="col-2 text-center"><hr/></div>
+                        </div>
+                   </div>
+
+                    </t>
+               </t>
+             </t>
+        </template>
+        
+  </data>
+</odoo>

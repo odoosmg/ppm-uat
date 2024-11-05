@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_auto_rebuild,auto_rebuild,model_auto_rebuild,base.group_user,1,1,1,1
+access_auto_rebuild_settings,auto_rebuild_settings,model_auto_rebuild_settings,base.group_user,1,1,1,1

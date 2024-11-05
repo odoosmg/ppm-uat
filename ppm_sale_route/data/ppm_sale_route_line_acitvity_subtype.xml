@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="ppm_sale_route_line_activity_state_change" model="mail.message.subtype">
+            <field name="name">Customer to approve</field>
+            <field name="res_model">res.partner</field>
+            <field name="default" eval="True"/>
+            <field name="description">Customer to Approve</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="ppm_sale_route_line_search" model="ir.ui.view">
+            <field name="name">ppm_sale_route_line_search</field>
+            <field name="model">ppm.sale.route.line</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="user_id" string="Saleperson"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Salesperson" name="groupby_salesperson" domain="[]" context="{'group_by': 'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="ppm_sale_route_line_list" model="ir.ui.view">
+            <field name="name">ppm_sale_route_line_list</field>
+            <field name="model">ppm.sale.route.line</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false" editable="top">
+                    <field name="company_id" invisible="1" />
+<!--                    <field name="existing_partner_ids" invisible="1"/>-->
+                    <field name="id" optional="hide"/>
+                    <field name="user_id" readonly="1" force_save="1"/>
+                    <field name="partner_id" readonly="1" force_save="1"/>
+                    <field name="mon_day"/>
+                    <field name="tue_day"/>
+                    <field name="wed_day"/>
+                    <field name="thu_day"/>
+                    <field name="fri_day"/>
+                    <field name="sat_day"/>
+                    <field name="week1"/>
+                    <field name="week2"/>
+                    <field name="week3"/>
+                    <field name="week4"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_ppm_sale_route_line" model="ir.actions.act_window">
+            <field name="name">Sale Route line</field>
+            <field name="res_model">ppm.sale.route.line</field>
+            <field name="search_view_id" ref="ppm_sale_route_line_search"/>
+            <field name="context">{'search_default_groupby_salesperson': 1}</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+</odoo>

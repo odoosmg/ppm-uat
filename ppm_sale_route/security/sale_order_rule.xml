@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="sale_order_group_user_rule" model="ir.rule">
+            <field name="name">Sale Order: group user</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="groups" eval="[(4, ref('ppm_sale_route.ppt_pharmacy_group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">['|', ('user_id', '=', False), ('user_id','=',user.id)]</field>
+        </record>
+        <record id="sale_order_group_manager_rule" model="ir.rule">
+            <field name="name">Sale Order: group manager</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="groups" eval="[(4, ref('ppm_sale_route.ppt_pharmacy_group_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">['|', '|', ('ppm_sale_team_id.manager_id', '=', user.id), ('user_id','=',user.id), ('user_id', '=', False)]</field>
+        </record>
+    </data>
+</odoo>

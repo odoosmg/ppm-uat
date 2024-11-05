@@ -1,0 +1,7 @@
+<odoo>
+  <data>
+    <menuitem id="menu_auto_rebuild_root" name="Auto Rebuild"/>
+    <menuitem id="menu_auto_rebuild" name="Rebuild Database and Filestore" parent="menu_auto_rebuild_root" action="action_auto_rebuild"/>
+<!--    <menuitem id="menu_auto_rebuild_settings" name="Settings" parent="menu_auto_rebuild_root" action="action_auto_rebuild_settings"/>-->
+  </data>
+</odoo>
